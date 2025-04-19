@@ -1,0 +1,2 @@
+NSLocationWhenInUseUsageDescription = "Para verificar su posición, esta aplicación requiere permiso para acceder a la ubicación.";
+PermissionGroupNotification = "Nos gustaría su permiso para enviarle notificaciones.";

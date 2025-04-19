@@ -1,0 +1,460 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{document} {
+      allow create: if request.auth.uid == document;
+      allow read: if true;
+      allow write: if request.auth.uid == document;
+      allow delete: if request.auth.uid == document;
+    }
+
+    match /places/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /events/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /visits/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /chats/{document} {
+      allow create: if /databases/$(database)/documents/users/$(request.auth.uid) in request.resource.data.users;
+      allow read: if /databases/$(database)/documents/users/$(request.auth.uid) in resource.data.users;
+      allow write: if /databases/$(database)/documents/users/$(request.auth.uid) in resource.data.users;
+      allow delete: if false;
+    }
+
+    match /chat_messages/{document} {
+      allow create: if /databases/$(database)/documents/users/$(request.auth.uid) in get(request.resource.data.chat).data.users
+&& /databases/$(database)/documents/users/$(request.auth.uid) == request.resource.data.user;
+      allow read: if /databases/$(database)/documents/users/$(request.auth.uid) in get(resource.data.chat).data.users;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /users/{parent}/userFollowedEvents/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /users/{parent}/userFollowedPlaces/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /users/{parent}/userBlockedUsers/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /friendships/{document} {
+      allow create: if request.auth != null;
+      allow read: if true;
+      allow write: if /databases/$(database)/documents/users/$(request.auth.uid) in resource.data.users;
+      allow delete: if false;
+    }
+
+    match /posts/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /posts/{parent}/postViews/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/postViews/{document} {
+      allow read: if true;
+    }
+
+
+    match /posts/{parent}/postLikes/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/postLikes/{document} {
+      allow read: if true;
+    }
+
+
+    match /categories/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /visits/{parent}/visitReviews/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if get(/databases/$(database)/documents/visits/$(parent)).data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/visitReviews/{document} {
+      allow read: if true;
+    }
+
+
+    match /users/{parent}/userImages/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /places/{parent}/placeImages/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/placeImages/{document} {
+      allow read: if true;
+    }
+
+
+    match /stripeCustomers/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /stripeProducts/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /stripeConfiguration/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /subscriptionPlans/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /searchLocations/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /users/{parent}/userLocations/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /users/{parent}/userFriendships/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if /databases/$(database)/documents/users/$(request.auth.uid) in resource.data.users;
+      allow delete: if false;
+    }
+
+    match /users/{parent}/userRequests/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /users/{parent}/userNotifications/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /users/{parent}/userLikes/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /events/{parent}/eventImages/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if get(/databases/$(database)/documents/events/$(parent)).data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/eventImages/{document} {
+      allow read: if true;
+    }
+
+
+    match /posts/{parent}/postComments/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.createdBy == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/postComments/{document} {
+      allow read: if true;
+    }
+
+
+    match /stripeCustomers/{parent}/checkout_sessions/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null;
+    }
+
+    match /{path=**}/checkout_sessions/{document} {
+      allow read: if true;
+    }
+
+
+    match /stripeProducts/{parent}/prices/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/prices/{document} {
+      allow read: if true;
+    }
+
+
+    match /stripeProducts/{parent}/tax_rates/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/tax_rates/{document} {
+      allow read: if true;
+    }
+
+
+    match /stripeCustomers/{parent}/subscriptions/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/subscriptions/{document} {
+      allow read: if true;
+    }
+
+
+    match /stripeCustomers/{parent}/payments/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/payments/{document} {
+      allow read: if true;
+    }
+
+
+    match /visits/{parent}/visitLikes/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/visitLikes/{document} {
+      allow read: if true;
+    }
+
+
+    match /tags/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /events/{parent}/eventConfirmedUsers/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/eventConfirmedUsers/{document} {
+      allow read: if true;
+    }
+
+
+    match /events/{parent}/eventInvitedUsers/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if true;
+      allow delete: if false;
+    }
+
+    match /{path=**}/eventInvitedUsers/{document} {
+      allow read: if true;
+    }
+
+
+    match /posts/{parent}/postCommentLikes/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /{path=**}/postCommentLikes/{document} {
+      allow read: if true;
+    }
+
+
+    match /complaints/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /helpRequest/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /checkout/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if resource.data.userRef == /databases/$(database)/documents/users/$(request.auth.uid);
+      allow delete: if false;
+    }
+
+    match /users/{parent}/userStories/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
+    }
+
+    match /placeSubscriptions/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /placeSubscriptions/{parent}/placeSubImages/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/placeSubImages/{document} {
+      allow read: if true;
+    }
+
+
+    match /places/{parent}/placeMessages/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/placeMessages/{document} {
+      allow read: if true;
+    }
+
+
+    match /events/{parent}/eventMessages/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/eventMessages/{document} {
+      allow read: if true;
+    }
+
+
+    match /places/{parent}/placeReviews/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/placeReviews/{document} {
+      allow read: if true;
+    }
+
+
+    match /places/{parent}/placeSubscription/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/placeSubscription/{document} {
+      allow read: if true;
+    }
+
+
+    match /visits/{parent}/visitCart/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /{path=**}/visitCart/{document} {
+      allow read: if true;
+    }
+
+  }
+}

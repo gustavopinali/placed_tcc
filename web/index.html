@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    Fore more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+  -->
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Placed">
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6421100303643528"
+     crossorigin="anonymous"></script>
+
+  
+
+  <!-- Favicon -->
+  <link rel="icon" href="cone_do_aplicativo_cpia_2_(1).png" sizes="any"/>
+  
+
+  <!-- Open Graph & SEO tags -->
+  <meta property="og:title" content="Placed" />
+  <meta property="og:description" content="O Placed é o aplicativo ideal para aqueles que desejam aproveitar ao máximo sua vida, explorar novos locais interessantes e conhecer pessoas incríveis em sua área local. Baixe agora mesmo e comece a descobrir o que sua cidade tem de melhor a oferecer!" />
+  <meta property="og:image" content="/assets/assets/images/Novo_Projeto_(3).png" /> 
+  <meta name="twitter:title" content="Placed" />
+  <meta name="twitter:description" content="O Placed é o aplicativo ideal para aqueles que desejam aproveitar ao máximo sua vida, explorar novos locais interessantes e conhecer pessoas incríveis em sua área local. Baixe agora mesmo e comece a descobrir o que sua cidade tem de melhor a oferecer!" />
+  <meta name="twitter:image" content="/assets/assets/images/Novo_Projeto_(3).png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <title> Placed </title>
+  <meta name="description" content="O Placed é o aplicativo ideal para aqueles que desejam aproveitar ao máximo sua vida, explorar novos locais interessantes e conhecer pessoas incríveis em sua área local. Baixe agora mesmo e comece a descobrir o que sua cidade tem de melhor a oferecer!" />
+    
+
+  <!-- Status Bar color in Safari browser (iOS) and PWA -->
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0a0a0a">
+
+  <link rel="manifest" href="manifest.json">
+  
+  
+</head>
+<body>
+  
+  <script src="https://maps.googleapis.com/maps/api/js?key=<GoogleApiKey_Web>"></script>
+  
+  
+  
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('flutter-first-frame', function () {
+        navigator.serviceWorker.register('flutter_service_worker.js?v=');
+      });
+    }
+  </script>
+  <script src="main.dart.js" type="application/javascript"></script>
+
+</body>
+</html>
